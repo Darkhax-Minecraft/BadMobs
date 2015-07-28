@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class ItemDataChecker extends Item {
@@ -21,7 +20,7 @@ public class ItemDataChecker extends Item {
     
     @Override
     public boolean itemInteractionForEntity (ItemStack item, EntityPlayer player, EntityLivingBase entity) {
-        
+    
         if (player.worldObj.isRemote)
             return false;
         
