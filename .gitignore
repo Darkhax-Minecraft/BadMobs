@@ -1,0 +1,14 @@
+#Java
+*.class
+*.iml
+*.ipr
+*.iws
+
+#ForgeGradle
+/build
+/.gradle
+/eclipse/assets
+/output
+
+#Subaraki
+Thumbs.db
