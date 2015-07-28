@@ -10,12 +10,10 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = Constants.VERSION, guiFactory = Constants.FACTORY)
+@Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = Constants.VERSION, acceptableRemoteVersions = "*", guiFactory = Constants.FACTORY)
 public class BadMobs {
     
     @SidedProxy(clientSide = Constants.CLIENT, serverSide = Constants.SERVER)
@@ -28,21 +26,9 @@ public class BadMobs {
     public void preInit (FMLPreInitializationEvent pre) {
     
         new ConfigurationHandler(pre.getSuggestedConfigurationFile());
-        proxy.preInit();
-        
-        GameRegistry.registerItem(new ItemDataChecker(), "dataChecker");
         MinecraftForge.EVENT_BUS.register(new EntitySpawningHandler());
-    }
-    
-    @EventHandler
-    public void init (FMLInitializationEvent event) {
-    
-        proxy.init();
-    }
-    
-    @EventHandler
-    public void postInit (FMLPostInitializationEvent event) {
-    
-        proxy.postInit();
+        
+        if (!ConfigurationHandler.serverMode)
+            GameRegistry.registerItem(new ItemDataChecker(), "dataChecker");
     }
 }
