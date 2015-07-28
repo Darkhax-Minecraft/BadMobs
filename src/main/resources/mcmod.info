@@ -1,0 +1,16 @@
+[
+{
+  "modid": "badmobs",
+  "name": "Bad Mobs",
+  "description": "Provides a way to disable any mob you want.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Darkhax"],
+  "credits": "Maintained by Darkhax, suggestion from ShadowLord0",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
