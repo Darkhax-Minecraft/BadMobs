@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = Constants.VERSION, acceptableRemoteVersions = "*", guiFactory = Constants.FACTORY)
+@Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = Constants.VERSION, guiFactory = Constants.FACTORY, acceptableRemoteVersions = "*", acceptedMinecraftVersions = "[1.8,1.9)", dependencies = "required-after:Forge@[11.14.4,)")
 public class BadMobs {
     
     @SidedProxy(clientSide = Constants.CLIENT, serverSide = Constants.SERVER)
