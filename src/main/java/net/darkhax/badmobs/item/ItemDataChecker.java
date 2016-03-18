@@ -6,25 +6,25 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 
 public class ItemDataChecker extends Item {
     
     public ItemDataChecker() {
-    
+        
         this.setCreativeTab(CreativeTabs.tabMisc);
         this.setUnlocalizedName("badmobs.datachecker");
-        this.setTextureName("badmobs:infobook");
     }
     
     @Override
-    public boolean itemInteractionForEntity (ItemStack item, EntityPlayer player, EntityLivingBase entity) {
-    
-        if (player.worldObj.isRemote)
-            return false;
+    public boolean itemInteractionForEntity (ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
         
-        player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("chat.badmobs.entityName") + ": " + EntityList.getEntityString(entity)));
+        if (playerIn.worldObj.isRemote)
+            return false;
+            
+        playerIn.addChatMessage(new TextComponentString(I18n.translateToLocal("chat.badmobs.entityName") + ": " + EntityList.getEntityString(target)));
         return true;
     }
 }

@@ -8,8 +8,8 @@ import net.darkhax.badmobs.lib.Constants;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class GuiConfigBadMobs extends GuiConfig {
     
@@ -17,7 +17,7 @@ public class GuiConfigBadMobs extends GuiConfig {
     static ConfigurationHandler cfgh;
     
     public GuiConfigBadMobs(GuiScreen parent) {
-    
+        
         super(parent, generateConfigList(), Constants.MODID, false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.config.toString()));
     }
     
@@ -28,12 +28,12 @@ public class GuiConfigBadMobs extends GuiConfig {
      *         forge's configuration GUI.
      */
     public static List<IConfigElement> generateConfigList () {
-    
+        
         ArrayList<IConfigElement> elements = new ArrayList<IConfigElement>();
         
         for (String name : cfg.getCategoryNames())
             elements.add(new ConfigElement(cfg.getCategory(name)));
-        
+            
         return elements;
     }
 }
