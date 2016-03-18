@@ -1,14 +1,17 @@
-#Java
+#IntelliJ IDEA
 *.class
 *.iml
 *.ipr
 *.iws
+out/
 
 #ForgeGradle
-/build
-/.gradle
-/eclipse/assets
-/output
+build/
+.gradle/
+run/
 
-#Subaraki
-Thumbs.db
+#Eclipse
+.classpath
+.metadata/
+.project
+.settings/
