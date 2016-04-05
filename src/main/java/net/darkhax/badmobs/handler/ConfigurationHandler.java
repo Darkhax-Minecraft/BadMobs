@@ -21,14 +21,14 @@ public class ConfigurationHandler {
         
         config = new Configuration(file);
         MinecraftForge.EVENT_BUS.register(this);
-        syncConfigData();
+        this.syncConfigData();
     }
     
     @SubscribeEvent
     public void onConfigChange (OnConfigChangedEvent event) {
         
         if (event.getModID().equals(Constants.MODID))
-            syncConfigData();
+            this.syncConfigData();
     }
     
     /**

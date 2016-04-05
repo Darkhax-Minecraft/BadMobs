@@ -10,7 +10,7 @@ public class EntitySpawningHandler {
     @SubscribeEvent
     public void onEntityJoinWorld (EntityJoinWorldEvent event) {
         
-        Entity entity = event.getEntity();
+        final Entity entity = event.getEntity();
         if (entity != null && !ConfigurationHandler.bannedEntities.isEmpty() && ConfigurationHandler.bannedEntities.contains(EntityList.getEntityString(entity))) {
             
             if (ConfigurationHandler.killMode)

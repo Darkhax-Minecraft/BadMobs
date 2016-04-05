@@ -16,11 +16,6 @@ public class GuiConfigBadMobs extends GuiConfig {
     static Configuration cfg = ConfigurationHandler.config;
     static ConfigurationHandler cfgh;
     
-    public GuiConfigBadMobs(GuiScreen parent) {
-        
-        super(parent, generateConfigList(), Constants.MODID, false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.config.toString()));
-    }
-    
     /**
      * Generates a list of configuration options to be displayed in forge's configuration GUI.
      * 
@@ -29,11 +24,16 @@ public class GuiConfigBadMobs extends GuiConfig {
      */
     public static List<IConfigElement> generateConfigList () {
         
-        ArrayList<IConfigElement> elements = new ArrayList<IConfigElement>();
+        final ArrayList<IConfigElement> elements = new ArrayList<IConfigElement>();
         
-        for (String name : cfg.getCategoryNames())
+        for (final String name : cfg.getCategoryNames())
             elements.add(new ConfigElement(cfg.getCategory(name)));
             
         return elements;
+    }
+    
+    public GuiConfigBadMobs(GuiScreen parent) {
+        
+        super(parent, generateConfigList(), Constants.MODID, false, false, GuiConfig.getAbridgedConfigPath(ConfigurationHandler.config.toString()));
     }
 }
