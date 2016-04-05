@@ -36,7 +36,7 @@ minecraft {
 
     version = "1.9-12.16.0.1845-1.9"
     runDir = "run"
-    mappings = "snapshot_20160312"
+    mappings = 'snapshot_20160405'
 }
 
 //Defines basic patterns for pulling various dependencies.
