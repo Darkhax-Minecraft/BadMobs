@@ -34,7 +34,7 @@ version = getVersionFromJava(file("src/main/java/net/darkhax/badmobs/lib/Constan
 //Defines the MC environment information.
 minecraft {
 
-    version = "1.9-12.16.0.1767-1.9"
+    version = "1.9-12.16.0.1845-1.9"
     runDir = "run"
     mappings = "snapshot_20160312"
 }
