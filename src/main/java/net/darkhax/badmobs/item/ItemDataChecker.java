@@ -14,7 +14,7 @@ public class ItemDataChecker extends Item {
     
     public ItemDataChecker() {
         
-        this.setCreativeTab(CreativeTabs.tabMisc);
+        this.setCreativeTab(CreativeTabs.MISC);
         this.setUnlocalizedName("badmobs.datachecker");
     }
     
