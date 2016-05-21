@@ -7,7 +7,7 @@ public class Constants {
     
     public static final String MODID = "badmobs";
     public static final String MOD_NAME = "Bad Mobs";
-    public static final String VERSION_NUMBER = "1.1.0.0";
+    public static final String VERSION_NUMBER = "1.2.0.0";
     public static final String SERVER = "net.darkhax.badmobs.common.ProxyCommon";
     public static final String CLIENT = "net.darkhax.badmobs.client.ProxyClient";
     public static final String FACTORY = "net.darkhax.badmobs.client.gui.GuiFactoryBadMobs";

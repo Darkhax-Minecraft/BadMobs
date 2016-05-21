@@ -16,6 +16,7 @@ public class ItemDataChecker extends Item {
         
         this.setCreativeTab(CreativeTabs.MISC);
         this.setUnlocalizedName("badmobs.datachecker");
+        this.setRegistryName("infobook");
     }
     
     @Override

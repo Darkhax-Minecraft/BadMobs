@@ -36,7 +36,7 @@ public class BadMobs {
         
         if (!ConfigurationHandler.serverMode) {
             
-            GameRegistry.registerItem(infoBook, "infobook");
+            GameRegistry.register(infoBook);
             
             if (pre.getSide().equals(Side.CLIENT))
                 ModelLoader.setCustomModelResourceLocation(infoBook, 0, new ModelResourceLocation("badmobs:infobook", "inventory"));
