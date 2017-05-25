@@ -1,7 +1,6 @@
 package net.darkhax.badmobs.handler;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -34,18 +33,12 @@ public class ConfigurationHandler {
             if (parts.length == 2 && NumberUtils.isNumber(parts[1])) {
 
                 final int dimId = Integer.parseInt(parts[1]);
-
-                if (!BadMobs.DIMENSIONAL_BLACKLIST.containsKey(dimId)) {
-
-                    BadMobs.DIMENSIONAL_BLACKLIST.put(dimId, new ArrayList<String>());
-                }
-
-                BadMobs.DIMENSIONAL_BLACKLIST.get(dimId).add(parts[0]);
+                BadMobs.blacklist(dimId, parts[0]);
             }
 
             else {
 
-                BadMobs.GLOBAL_BLACKLIST.add(entry);
+                BadMobs.blacklist(entry);
             }
         }
 
