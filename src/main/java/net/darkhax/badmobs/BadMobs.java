@@ -48,19 +48,6 @@ public class BadMobs {
                 ModelLoader.setCustomModelResourceLocation(infoBook, 0, new ModelResourceLocation("badmobs:infobook", "inventory"));
             }
         }
-
-        for (final String entry : GLOBAL_BLACKLIST) {
-
-            System.out.println("The following is always blocked - " + entry);
-        }
-
-        for (final Entry<Integer, List<String>> entry : DIMENSIONAL_BLACKLIST.entrySet()) {
-
-            for (final String entry2 : entry.getValue()) {
-
-                System.out.println("The following is blocked in " + entry.getKey() + " - " + entry2);
-            }
-        }
     }
 
     @EventHandler
