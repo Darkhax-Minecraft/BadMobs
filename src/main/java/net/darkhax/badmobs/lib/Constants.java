@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Constants {
-    
+
     public static final String MODID = "badmobs";
     public static final String MOD_NAME = "Bad Mobs";
     public static final String VERSION_NUMBER = "1.2.0.0";
