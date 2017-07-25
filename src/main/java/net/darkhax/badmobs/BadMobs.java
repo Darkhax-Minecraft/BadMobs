@@ -4,27 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import minetweaker.MineTweakerAPI;
+import crafttweaker.CraftTweakerAPI;
 import net.darkhax.badmobs.addons.crt.BadMobsTweaker;
+import net.darkhax.badmobs.handler.BadMobsEventHandler;
 import net.darkhax.badmobs.handler.ConfigurationHandler;
-import net.darkhax.badmobs.handler.EntitySpawningHandler;
-import net.darkhax.badmobs.item.ItemDataChecker;
 import net.darkhax.badmobs.lib.Constants;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = "@VERSION@", acceptableRemoteVersions = "*")
 public class BadMobs {
@@ -32,22 +25,11 @@ public class BadMobs {
     public static final List<String> GLOBAL_BLACKLIST = new ArrayList<>();
     public static final Map<Integer, List<String>> DIMENSIONAL_BLACKLIST = new HashMap<>();
 
-    public static Item infoBook = new ItemDataChecker();
-
     @EventHandler
     public void preInit (FMLPreInitializationEvent pre) {
 
         new ConfigurationHandler(pre.getSuggestedConfigurationFile());
-        MinecraftForge.EVENT_BUS.register(new EntitySpawningHandler());
-
-        if (!ConfigurationHandler.serverMode) {
-
-            GameRegistry.register(infoBook);
-
-            if (pre.getSide().equals(Side.CLIENT)) {
-                ModelLoader.setCustomModelResourceLocation(infoBook, 0, new ModelResourceLocation("badmobs:infobook", "inventory"));
-            }
-        }
+        MinecraftForge.EVENT_BUS.register(new BadMobsEventHandler());
     }
 
     @EventHandler
@@ -55,7 +37,7 @@ public class BadMobs {
 
         if (Loader.isModLoaded("crafttweaker")) {
 
-            MineTweakerAPI.registerClass(BadMobsTweaker.class);
+            CraftTweakerAPI.registerClass(BadMobsTweaker.class);
         }
     }
 
