@@ -9,7 +9,6 @@ import crafttweaker.CraftTweakerAPI;
 import net.darkhax.badmobs.addons.crt.BadMobsTweaker;
 import net.darkhax.badmobs.handler.BadMobsEventHandler;
 import net.darkhax.badmobs.handler.ConfigurationHandler;
-import net.darkhax.badmobs.lib.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +18,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Constants.MODID, name = Constants.MOD_NAME, version = "@VERSION@", acceptableRemoteVersions = "*")
+@Mod(modid = "badmobs", name = "Bad Mobs", version = "@VERSION@", acceptableRemoteVersions = "*", certificateFingerprint = "@FINGERPRINT@")
 public class BadMobs {
 
     public static final List<String> GLOBAL_BLACKLIST = new ArrayList<>();
