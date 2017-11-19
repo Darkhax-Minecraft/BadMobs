@@ -73,7 +73,7 @@ public class BadMobs {
 
     public static boolean isBlacklisted (Entity entity) {
 
-        final String entityId = EntityList.getEntityString(entity);
+        final String entityId = EntityList.getKey(entity).toString();
         return GLOBAL_BLACKLIST.contains(entityId) ? true : DIMENSIONAL_BLACKLIST.get(entity.dimension) != null ? DIMENSIONAL_BLACKLIST.get(entity.dimension).contains(entityId) : false;
     }
 }
