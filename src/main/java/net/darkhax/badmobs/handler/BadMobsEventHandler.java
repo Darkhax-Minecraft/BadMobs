@@ -26,13 +26,13 @@ public class BadMobsEventHandler {
             event.setCanceled(true);
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onTooltipRendered(ItemTooltipEvent event) {
-        
+    public void onTooltipRendered (ItemTooltipEvent event) {
+
         if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemMonsterPlacer) {
-            
+
             event.getToolTip().add("Entity ID: " + ItemMonsterPlacer.getNamedIdFrom(event.getItemStack()).toString());
         }
     }
