@@ -3,6 +3,7 @@ package net.darkhax.badmobs.handler;
 import net.darkhax.badmobs.BadMobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -33,7 +34,12 @@ public class BadMobsEventHandler {
 
         if (!event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemMonsterPlacer) {
 
-            event.getToolTip().add("Entity ID: " + ItemMonsterPlacer.getNamedIdFrom(event.getItemStack()).toString());
+            final ResourceLocation id = ItemMonsterPlacer.getNamedIdFrom(event.getItemStack());
+            
+            if (id != null) {
+                
+                event.getToolTip().add("Entity ID: " + id.toString());
+            }
         }
     }
 }
