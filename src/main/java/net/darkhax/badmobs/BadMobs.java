@@ -7,16 +7,13 @@ import java.util.Map;
 
 import crafttweaker.CraftTweakerAPI;
 import net.darkhax.badmobs.addons.crt.BadMobsTweaker;
-import net.darkhax.badmobs.handler.BadMobsEventHandler;
 import net.darkhax.badmobs.handler.ConfigurationHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "badmobs", name = "Bad Mobs", version = "@VERSION@", acceptableRemoteVersions = "*", certificateFingerprint = "@FINGERPRINT@")
@@ -29,11 +26,6 @@ public class BadMobs {
     public void preInit (FMLPreInitializationEvent pre) {
 
         new ConfigurationHandler(pre.getSuggestedConfigurationFile());
-        MinecraftForge.EVENT_BUS.register(new BadMobsEventHandler());
-    }
-
-    @EventHandler
-    public void postInit (FMLPostInitializationEvent ev) {
 
         if (Loader.isModLoaded("crafttweaker")) {
 
