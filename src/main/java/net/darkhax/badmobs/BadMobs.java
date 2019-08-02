@@ -1,103 +1,94 @@
 package net.darkhax.badmobs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import crafttweaker.CraftTweakerAPI;
-import net.darkhax.badmobs.addons.crt.BadMobsTweaker;
-import net.darkhax.badmobs.handler.ClientEventHandler;
-import net.darkhax.badmobs.handler.ConfigurationHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Type;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@Mod(modid = "badmobs", name = "Bad Mobs", version = "@VERSION@", acceptableRemoteVersions = "*", certificateFingerprint = "@FINGERPRINT@")
+@Mod("badmobs")
 public class BadMobs {
-
-    public static final List<String> GLOBAL_BLACKLIST = new ArrayList<>();
-    public static final Map<Integer, List<String>> DIMENSIONAL_BLACKLIST = new HashMap<>();
-
-    @EventHandler
-    public void preInit (FMLPreInitializationEvent pre) {
-
-        new ConfigurationHandler(pre.getSuggestedConfigurationFile());
-
-        if (pre.getSide() == Side.CLIENT && ConfigurationHandler.addIDToTooltip) {
-            
-            MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
-        }
+    
+    public static final Logger log = LogManager.getLogger("Bad Mobs");
+    private final Configuration config = new Configuration();
+    private final Blacklist blacklist = new Blacklist();
+    
+    public BadMobs () {
         
-        if (Loader.isModLoaded("crafttweaker")) {
-
-            CraftTweakerAPI.registerClass(BadMobsTweaker.class);
-        }
+    	ModLoadingContext.get().registerConfig(Type.COMMON, config.getSpec());
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLodaded);
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> MinecraftForge.EVENT_BUS.addListener(this::onItemTooltip));
     }
     
-    @EventHandler
-    public void postInit (FMLPostInitializationEvent ev) {
+    private void loadComplete (FMLLoadCompleteEvent event) {
         
-        for (Biome biome : ForgeRegistries.BIOMES) {
+        for (final String entry : this.config.getBannedMobs()) {
             
-            for (EnumCreatureType type : EnumCreatureType.values()) {
+            final ResourceLocation id = new ResourceLocation(entry);
+            
+            if (ForgeRegistries.ENTITIES.containsKey(id)) {
                 
-                biome.getSpawnableList(type).removeIf(entry -> isBlacklisted(entry.entityClass));
+                this.blacklist.blacklistGlobal(id);
+            }
+            
+            else {
+                
+                log.error("Tried to blacklist mob {} but no mob exists with that ID!", id.toString());
+            }
+        }
+        
+        for (final Biome biome : ForgeRegistries.BIOMES) {
+            
+            for (final EnumCreatureType type : EnumCreatureType.values()) {
+                
+                biome.getSpawns(type).removeIf(entry -> this.blacklist.isBlacklisted(entry.entityType));
             }
         }
     }
-
-    public static void blacklist (String entity) {
-
-        GLOBAL_BLACKLIST.add(entity);
-    }
-
-    public static void remove (String entity) {
-
-        GLOBAL_BLACKLIST.remove(entity);
-    }
-
-    public static void blacklist (int id, String entity) {
-
-        if (!DIMENSIONAL_BLACKLIST.containsKey(id)) {
-
-            DIMENSIONAL_BLACKLIST.put(id, new ArrayList<String>());
-        }
-
-        DIMENSIONAL_BLACKLIST.get(id).add(entity);
-    }
-
-    public static void remove (int id, String entity) {
-
-        if (!DIMENSIONAL_BLACKLIST.containsKey(id)) {
-
-            DIMENSIONAL_BLACKLIST.put(id, new ArrayList<String>());
-        }
-
-        DIMENSIONAL_BLACKLIST.get(id).remove(entity);
-    }
-
-    public static boolean isBlacklisted(Class<? extends Entity> entClass) {
-        
-        final ResourceLocation id = EntityList.getKey(entClass);
-        final String entityId = id != null ? id.toString() : null;
-        return GLOBAL_BLACKLIST.contains(entityId);
+    
+    private void onConfigLodaded(ModConfig.Loading loaded) {
+    	
+    	if ("badmobs".equalsIgnoreCase(loaded.getConfig().getModId())) {
+    		
+    		log.info("Loading blacklist from config file.");
+    		this.blacklist.clear();
+    		
+    		for (String string : this.config.getBannedMobs()) {
+    			
+    			this.blacklist.blacklistGlobal(string);
+    		}
+    	}
     }
     
-    public static boolean isBlacklisted (Entity entity) {
-
-        final ResourceLocation id = EntityList.getKey(entity);
-        final String entityId = id != null ? id.toString() : null;
-        return GLOBAL_BLACKLIST.contains(entityId) ? true : DIMENSIONAL_BLACKLIST.get(entity.dimension) != null ? DIMENSIONAL_BLACKLIST.get(entity.dimension).contains(entityId) : false;
+    @OnlyIn(Dist.CLIENT)
+    private void onItemTooltip (ItemTooltipEvent event) {
+        
+        if (this.config.addTooltip() && !event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemSpawnEgg) {
+            
+            final ItemSpawnEgg egg = (ItemSpawnEgg) event.getItemStack().getItem();
+            final EntityType<?> type = egg.getType(event.getItemStack().getTag());
+            
+            if (type != null) {
+                
+                event.getToolTip().add(new TextComponentTranslation("tip.badmobs.entityid", type.getRegistryName().toString()));
+            }
+        }
     }
 }
