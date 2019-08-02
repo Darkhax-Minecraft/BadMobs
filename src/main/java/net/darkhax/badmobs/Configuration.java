@@ -1,5 +1,6 @@
 package net.darkhax.badmobs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Configuration {
 
         builder.comment("A list of all banned mobs. If a mobs entity id is added to this list, it will not be allowed to spawn in any world.");
         builder.translation("badmobs.config.banned");
-        this.globalIds = builder.defineList(BANNED_MOBS, Arrays.asList("minecraft:squid", "minecraft:creeper", "minecraft:bat"), val -> val instanceof String);
+        this.globalIds = builder.defineList(BANNED_MOBS, new ArrayList<String>(), val -> val instanceof String);
         builder.pop();
 
         // Client
@@ -36,7 +37,7 @@ public class Configuration {
 
         builder.comment("Displays the ID of mobs on their spawn egg tooltip while enabled.");
         builder.translation("badmobs.config.addtooltip");
-        displayTooltip = builder.define(ADD_TOOLTIP, true);
+        displayTooltip = builder.define(ADD_TOOLTIP, false);
         builder.pop();
         
         this.spec = builder.build();
