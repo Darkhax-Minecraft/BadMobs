@@ -26,7 +26,7 @@ pipeline {
 			    withCredentials([file(credentialsId: 'mod_build_secrets', variable: 'ORG_GRADLE_PROJECT_secretFile')]) {
 			
 			        echo 'Building project.'
-                    sh './gradlew build --stacktrace --warn'
+                    sh './gradlew build --stacktrace --warn --gradle-user-home=/var/lib/jenkins/.gradle'
 			    }
 			}
         }
