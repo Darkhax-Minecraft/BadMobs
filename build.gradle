@@ -169,7 +169,7 @@ curseforge {
     }
 }
 
-task signJar(type: SignJar) {
+task signJar(type: SignJar, dependsOn: jar) {
 
     onlyIf {
     
