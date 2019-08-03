@@ -22,6 +22,8 @@ apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Co
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/maven.gradle'
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/patreon.gradle'
 
+import net.minecraftforge.gradle.common.task.SignJar
+
 if (project.hasProperty('secretFile')) {
     loadSecrets(new File((String) findProperty('secretFile')))
 }
@@ -166,3 +168,20 @@ curseforge {
         addArtifact(deobfJar)
     }
 }
+
+task signJar(type: SignJar, dependsOn: reobfJar) {
+
+    onlyIf {
+    
+        project.hasProperty('keyStore')
+    }
+    
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+build.dependsOn signJar
