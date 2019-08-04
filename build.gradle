@@ -176,6 +176,8 @@ task signJar(type: SignJar, dependsOn: jar) {
         project.hasProperty('keyStore')
     }
     
+	project.logger.lifecycle('Signing jar ' + jar.archivePath.getName());
+	
     keyStore = project.findProperty('keyStore')
     alias = project.findProperty('keyStoreAlias')
     storePass = project.findProperty('keyStorePass')
