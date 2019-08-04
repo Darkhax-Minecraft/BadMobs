@@ -176,7 +176,7 @@ task signJar(type: SignJar, dependsOn: jar) {
         project.hasProperty('keyStore')
     }
     
-	if (project.hasProperty('keyStore') {
+	if (project.hasProperty('keyStore')) {
 	
 	    project.logger.lifecycle('Signing jar ' + jar.archivePath.getName());
 	
@@ -189,6 +189,7 @@ task signJar(type: SignJar, dependsOn: jar) {
 	}
 	
 	else {
+	
 	    project.logger.lifecycle('Could not sign ' + jar.archivePath.getName() + '. No keyStore property could be found')
 	}
 }
