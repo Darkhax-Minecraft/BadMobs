@@ -116,7 +116,7 @@ processResources {
 
         credits += patreonSupporters.join(', ')
 
-        expand 'version': project.version, 'mod_name': mod_name, 'mod_download': mod_download, 'mod_issues', mod_issues, 'mod_credits': credits, 'mod_authors': mod_authors, 'mod_description': mod_description
+        expand 'version': project.version, 'mod_name': mod_name, 'mod_download': mod_download, 'mod_credits': credits, 'mod_authors': mod_authors, 'mod_description': mod_description
     }
 
     from(sourceSets.main.resources.srcDirs) {
