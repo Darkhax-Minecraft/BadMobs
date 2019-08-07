@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[25,)"
-issueTrackerURL="https://github.com/Darkhax-Minecraft/BadMobs"
+issueTrackerURL="https://github.com/Darkhax-Minecraft/BadMobs/issues"
 
 [[mods]]
 modId="badmobs"

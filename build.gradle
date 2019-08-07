@@ -29,14 +29,13 @@ if (project.hasProperty('secretFile')) {
 }
 
 version = "${mod_version}" + getBuildNumber()
-group = "${mod_group}"
-archivesBaseName = "${mod_name}-${version_minecraft}"
+archivesBaseName = "${mod_name}-${minecraft_version}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
 
-    mappings channel: 'stable', version: "${version_mcp}".toString()
+    mappings channel: 'stable', version: "${mcp_version}".toString()
 	
     if (project.hasProperty('mod_at')) {
     
@@ -71,19 +70,22 @@ minecraft {
 
 dependencies {
 
-    minecraft "net.minecraftforge:forge:${version_forge}"
+    minecraft "net.minecraftforge:forge:${forge_version}"
 }
 
 jar {
     manifest {
         attributes([
-            "Specification-Title": "${mod_name}",
-            "Specification-Vendor": "${mod_vendor}",
-            "Specification-Version": "${version}",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"${mod_vendor}",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            'Timestamp': System.currentTimeMillis(),
+            'Specification-Title': "${mod_name}",
+            'Specification-Vendor': "${mod_vendor}",
+            'Specification-Version': "${version}",
+            'Implementation-Title': project.archivesBaseName,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor' :"${mod_vendor}",
+            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+            'Built-On': "${minecraft_version}-${forge_version}"
         ])
     }
 }
@@ -114,10 +116,11 @@ processResources {
 
         credits += patreonSupporters.join(', ')
 
-        expand 'version': project.version, 'mod_id' : mod_id, 'mod_name': mod_name, 'mod_download': mod_download, 'mod_credits': credits, 'mod_authors': mod_authors, 'mod_description': mod_description
+        expand 'version': project.version, 'mod_name': mod_name, 'mod_download': mod_download, 'mod_issues', mod_issues, 'mod_credits': credits, 'mod_authors': mod_authors, 'mod_description': mod_description
     }
 
     from(sourceSets.main.resources.srcDirs) {
+    
         exclude 'META-INF/mods.toml'
     }
 }
