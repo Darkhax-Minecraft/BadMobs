@@ -35,7 +35,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 minecraft {
 
-    mappings channel: 'stable', version: "${mcp_version}".toString()
+    mappings channel: 'snapshot', version: "${mcp_version}".toString()
 	
     if (project.hasProperty('mod_at')) {
     

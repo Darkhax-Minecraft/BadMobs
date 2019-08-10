@@ -3,11 +3,11 @@ package net.darkhax.badmobs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -56,7 +56,7 @@ public class BadMobs {
         
         for (final Biome biome : ForgeRegistries.BIOMES) {
             
-            for (final EnumCreatureType type : EnumCreatureType.values()) {
+            for (final EntityClassification type : EntityClassification.values()) {
                 
                 biome.getSpawns(type).removeIf(entry -> this.blacklist.isBlacklisted(entry.entityType));
             }
@@ -80,14 +80,14 @@ public class BadMobs {
     @OnlyIn(Dist.CLIENT)
     private void onItemTooltip (ItemTooltipEvent event) {
         
-        if (this.config.addTooltip() && !event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof ItemSpawnEgg) {
+        if (this.config.addTooltip() && !event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof SpawnEggItem) {
             
-            final ItemSpawnEgg egg = (ItemSpawnEgg) event.getItemStack().getItem();
+            final SpawnEggItem egg = (SpawnEggItem) event.getItemStack().getItem();
             final EntityType<?> type = egg.getType(event.getItemStack().getTag());
             
             if (type != null) {
                 
-                event.getToolTip().add(new TextComponentTranslation("tip.badmobs.entityid", type.getRegistryName().toString()));
+                event.getToolTip().add(new TranslationTextComponent("tip.badmobs.entityid", type.getRegistryName().toString()));
             }
         }
     }
