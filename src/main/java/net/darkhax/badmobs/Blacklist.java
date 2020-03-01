@@ -1,46 +1,76 @@
 package net.darkhax.badmobs;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class Blacklist {
 
-	private final Set<ResourceLocation> blacklistGlobal = new HashSet<>();
+	private final List<EntityType<?>> blacklistGlobal = new ArrayList<>();
     
-	public void clear() {
+	private boolean spawnEggs;
+	private boolean spawners;
+	
+	public void load(Configuration config) {
+		
+		this.spawnEggs = config.allowSpawnEgg();
+		this.spawners = config.allowSpawners();
 		
 		this.blacklistGlobal.clear();
-	}
-	
-	public void blacklistGlobal(Entity entity) {
 		
-		blacklistGlobal(entity.getType().getRegistryName());
+		BadMobs.log.info("Loading {} blacklist entries from config.", config.getBannedMobs().size());
+		
+		for (String string : config.getBannedMobs()) {
+			
+			this.blacklistGlobal(string);
+		}
 	}
 	
-	public void blacklistGlobal(String id) {
+	private void blacklistGlobal(String id) {
 		
 		ResourceLocation idRL = ResourceLocation.tryCreate(id);
 		
 		if (idRL != null) {
 			
-			blacklistGlobal(idRL);
+			final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(idRL);
+			
+			if (type != null) {
+				
+				this.blacklistGlobal.add(type);
+			}
+			
+			else {
+				
+				BadMobs.log.error("Failed to blacklist ID {}. No mob with this name exists.", id);
+			}
 		}
 		
 		else {
 			
-			BadMobs.log.error("Failed to blacklist invalid ID {}. It was entered incorrectly!");
+			BadMobs.log.error("Failed to blacklist invalid ID {}. It was entered incorrectly!", id);
 		}
 	}
-	
-	public void blacklistGlobal(ResourceLocation id) {
-		
-		blacklistGlobal.add(id);
-	}
 
+    public boolean isBlacklisted (Entity entity, SpawnReason reason) {
+
+    	if (reason == SpawnReason.COMMAND) {
+    		
+    		return false;
+    	}
+    	
+    	else if ((reason == SpawnReason.SPAWN_EGG && this.spawnEggs) || (reason == SpawnReason.SPAWNER && this.spawners)) {
+    		
+    		return false;
+    	}
+    	
+        return this.isBlacklisted(entity.getType());
+    }
+    
     public boolean isBlacklisted (Entity entity) {
 
         return this.isBlacklisted(entity.getType());
@@ -48,6 +78,6 @@ public class Blacklist {
     
     public boolean isBlacklisted (EntityType<?> type) {
 
-        return this.blacklistGlobal.contains(type.getRegistryName());
+        return this.blacklistGlobal.contains(type);
     }
 }

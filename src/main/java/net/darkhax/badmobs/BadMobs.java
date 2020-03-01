@@ -6,13 +6,15 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -34,25 +36,12 @@ public class BadMobs {
     	ModLoadingContext.get().registerConfig(Type.COMMON, config.getSpec());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLodaded);
+        MinecraftForge.EVENT_BUS.addListener(this::checkSpawn);
+        MinecraftForge.EVENT_BUS.addListener(this::specialSpawn);
         DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> MinecraftForge.EVENT_BUS.addListener(this::onItemTooltip));
     }
     
     private void loadComplete (FMLLoadCompleteEvent event) {
-        
-        for (final String entry : this.config.getBannedMobs()) {
-            
-            final ResourceLocation id = new ResourceLocation(entry);
-            
-            if (ForgeRegistries.ENTITIES.containsKey(id)) {
-                
-                this.blacklist.blacklistGlobal(id);
-            }
-            
-            else {
-                
-                log.error("Tried to blacklist mob {} but no mob exists with that ID!", id.toString());
-            }
-        }
         
         for (final Biome biome : ForgeRegistries.BIOMES) {
             
@@ -63,24 +52,36 @@ public class BadMobs {
         }
     }
     
+    private void checkSpawn(CheckSpawn event) {
+    	
+    	if (blacklist.isBlacklisted(event.getEntity(), event.getSpawnReason())) {
+    		
+    		event.getEntity().remove();
+    		event.setResult(Result.DENY);
+    	}
+    }
+    
+    private void specialSpawn(SpecialSpawn event) {
+    	
+    	if (blacklist.isBlacklisted(event.getEntity(), event.getSpawnReason())) {
+    		
+    		event.getEntity().remove();
+    		event.setCanceled(true);
+    	}
+    }
+    
     private void onConfigLodaded(ModConfig.Loading loaded) {
     	
     	if ("badmobs".equalsIgnoreCase(loaded.getConfig().getModId())) {
     		
-    		log.info("Loading blacklist from config file.");
-    		this.blacklist.clear();
-    		
-    		for (String string : this.config.getBannedMobs()) {
-    			
-    			this.blacklist.blacklistGlobal(string);
-    		}
+    		this.blacklist.load(this.config);
     	}
     }
     
     @OnlyIn(Dist.CLIENT)
     private void onItemTooltip (ItemTooltipEvent event) {
         
-        if (this.config.addTooltip() && !event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof SpawnEggItem) {
+        if (event.getFlags().isAdvanced() && !event.getItemStack().isEmpty() && event.getItemStack().getItem() instanceof SpawnEggItem) {
             
             final SpawnEggItem egg = (SpawnEggItem) event.getItemStack().getItem();
             final EntityType<?> type = egg.getType(event.getItemStack().getTag());

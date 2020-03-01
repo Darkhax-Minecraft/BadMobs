@@ -1,7 +1,6 @@
 package net.darkhax.badmobs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -12,11 +11,13 @@ public class Configuration {
 
     public static final String REMOVE_NAMED = "removeNamed";
     public static final String BANNED_MOBS = "bannedMobs";
-    public static final String ADD_TOOLTIP = "addTooltip";
-
+    public static final String ALLOW_SPAWNER = "allowSpawners";
+    public static final String ALLOW_SPAWN_EGG = "allowSpawnEgg";
+    
     private final ForgeConfigSpec spec;
     private final ConfigValue<List<? extends String>> globalIds;
-    private final BooleanValue displayTooltip;
+    private final BooleanValue allowSpawners;
+    private final BooleanValue allowSpawnEggs;
     
     public Configuration () {
 
@@ -27,17 +28,14 @@ public class Configuration {
         builder.push("general");
 
         builder.comment("A list of all banned mobs. If a mobs entity id is added to this list, it will not be allowed to spawn in any world.");
-        builder.translation("badmobs.config.banned");
         this.globalIds = builder.defineList(BANNED_MOBS, new ArrayList<String>(), val -> val instanceof String);
-        builder.pop();
-
-        // Client
-        builder.comment("Client only settings.");
-        builder.push("client");
-
-        builder.comment("Displays the ID of mobs on their spawn egg tooltip while enabled.");
-        builder.translation("badmobs.config.addtooltip");
-        displayTooltip = builder.define(ADD_TOOLTIP, false);
+        
+        builder.comment("Should banned mobs spawn from spawners?");
+        allowSpawners = builder.define(ALLOW_SPAWNER, true);
+        
+        builder.comment("Should banned mobs spawn from spawn eggs?");
+        allowSpawnEggs = builder.define(ALLOW_SPAWN_EGG, true);
+        
         builder.pop();
         
         this.spec = builder.build();
@@ -48,9 +46,14 @@ public class Configuration {
     	return this.spec;
     }
 
-    public boolean addTooltip () {
+    public boolean allowSpawnEgg () {
 
-        return this.displayTooltip.get();
+        return this.allowSpawnEggs.get();
+    }
+    
+    public boolean allowSpawners () {
+    	
+    	return this.allowSpawners.get();
     }
 
     public List<? extends String> getBannedMobs () {
