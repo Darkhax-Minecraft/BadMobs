@@ -9,27 +9,23 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 
 @Mod("badmobs")
 public class BadMobs {
     
-    public static final Logger log = LogManager.getLogger("Bad Mobs");
-    private Configuration config;
+    public static final Logger LOG = LogManager.getLogger("Bad Mobs");
+    private final Configuration config;
     
     public BadMobs() {
         
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
+        this.config = new Configuration();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, config.getSpec());
         MinecraftForge.EVENT_BUS.addListener(this::checkSpawn);
         MinecraftForge.EVENT_BUS.addListener(this::specialSpawn);
         MinecraftForge.EVENT_BUS.addListener(this::entityJoinWorld);
-    }
-    
-    private void loadComplete (FMLLoadCompleteEvent event) {
-        
-        this.config = new Configuration();
     }
     
     private void checkSpawn (CheckSpawn event) {
@@ -56,7 +52,7 @@ public class BadMobs {
             
             event.getEntity().remove();
             event.setCanceled(true);
-            log.info("Forcefully removed {}.", event.getEntity());
+            LOG.info("Forcefully removed {}.", event.getEntity());
         }
     }
 }
