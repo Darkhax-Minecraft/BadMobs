@@ -36,7 +36,11 @@ public class Configuration {
         
         if (config == null) {
             
-            BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", entity.getType().getRegistryName(), entity, reason);
+            if (!ForgeRegistries.ENTITIES.containsValue(entity.getType())) {
+                
+                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", entity.getType().getRegistryName(), entity, reason);
+            }
+            
             return true;
         }
         
