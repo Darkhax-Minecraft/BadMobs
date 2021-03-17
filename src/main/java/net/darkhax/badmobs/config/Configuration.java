@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.darkhax.badmobs.BadMobs;
+import net.darkhax.badmobs.tempshelf.ConfigManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -12,8 +13,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class Configuration {
     
+    private final ConfigManager manager;
     private final Map<EntityType<?>, SpawnConfig> configs = new HashMap<>();
-    private final ForgeConfigSpec spec;
     
     public Configuration() {
         
@@ -24,12 +25,9 @@ public class Configuration {
             this.configs.put(type, new SpawnConfig(type.getRegistryName(), builder));
         }
         
-        this.spec = builder.build();
-    }
-    
-    public ForgeConfigSpec getSpec() {
-        
-        return spec;  
+        this.manager = new ConfigManager(builder.build());
+        this.manager.registerWithForge();
+        this.manager.open();
     }
     
     public boolean allowSpawn (Entity entity, SpawnReason reason, boolean world) {

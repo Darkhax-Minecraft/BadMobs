@@ -12,28 +12,28 @@ public class SpawnConfig {
     private final ForgeConfigSpec.BooleanValue allowSpawnEggs;
     private final ForgeConfigSpec.BooleanValue removeAggresively;
     
-    public SpawnConfig(ResourceLocation id, ForgeConfigSpec.Builder spec) {
+    public SpawnConfig(ResourceLocation id, ForgeConfigSpec.Builder builder) {
         
-        spec.comment("Options for the " + id.getNamespace() + " mod.");
-        spec.push(id.getNamespace());
+        builder.comment("Options for the " + id.getNamespace() + " mod.");
+        builder.push(id.getNamespace());
         
-        spec.comment("Spawning options for " + id.toString());
-        spec.push(id.getPath());
+        builder.comment("Spawning options for " + id.toString());
+        builder.push(id.getPath());
         
-        spec.comment("Should the entity be allowed to spawn normally?");
-        this.allowNormalSpawn = spec.define("allowNormalSpawning", true);
+        builder.comment("Should the entity be allowed to spawn normally?");
+        this.allowNormalSpawn = builder.define("allowNormalSpawning", true);
         
-        spec.comment("Should spawners be able to spawn the entity?");
-        this.allowSpawners = spec.define("allowSpawners", true);
+        builder.comment("Should spawners be able to spawn the entity?");
+        this.allowSpawners = builder.define("allowSpawners", true);
         
-        spec.comment("Should spawn eggs be able to spawn the entity?");
-        this.allowSpawnEggs = spec.define("allowSpawnEggs", true);
+        builder.comment("Should spawn eggs be able to spawn the entity?");
+        this.allowSpawnEggs = builder.define("allowSpawnEggs", true);
         
-        spec.comment("When enabled the entity type will be aggresively removed from worlds. This will bypass all other options.");
-        this.removeAggresively = spec.define("removeAggressively", false);
+        builder.comment("When enabled the entity type will be aggresively removed from worlds. This will bypass all other options.");
+        this.removeAggresively = builder.define("removeAggressively", false);
         
-        spec.pop();        
-        spec.pop();
+        builder.pop();
+        builder.pop();
     }
     
     public boolean canSpawn (Entity entity, SpawnReason reason, boolean world) {

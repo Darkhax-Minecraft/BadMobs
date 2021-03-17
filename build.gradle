@@ -74,9 +74,16 @@ minecraft {
     }
 }
 
+repositories {
+    maven {
+        url "https://www.cursemaven.com"
+    }
+}
+
 dependencies {
 
     minecraft "net.minecraftforge:forge:${forge_version}"
+    implementation fg.deobf("curse.maven:waddles-251767:${waddles_version}")
 }
 
 jar {
