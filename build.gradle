@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+', changing: true
         classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
         classpath group: 'com.diluv.schoomp', name: 'Schoomp', version: '1.1.0'
     }
@@ -36,7 +36,7 @@ if (project.hasProperty('secretFile')) {
 version = "${mod_version}" + getBuildNumber()
 archivesBaseName = "${mod_name}-${minecraft_version}"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
 
@@ -51,7 +51,7 @@ minecraft {
         client {
         
             workingDirectory project.file('run')
-            taskName "${mod_name} Client"
+            taskName "${mod_name}Client"
 
             mods {
                 badmobs {
@@ -62,7 +62,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            taskName "${mod_name} Server"
+            taskName "${mod_name}Server"
             
             mods {
                 badmobs {
@@ -111,31 +111,15 @@ String getBuildNumber() {
 
 processResources {
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'META-INF/mods.toml'
+    def buildProps = project.properties.clone()
 
-        def credits = "Thanks to my supporters on Patreon. "
+    // Replaces FML's magic file.jarVersion string with the correct version at
+    // build time.
+    buildProps.put('file', [jarVersion: project.version])
 
-        def patreonSupporters = new ArrayList<String>()
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
 
-        for (entry in getPledges()) {
-
-            def pledge = entry.getValue();
-
-            if (pledge.isValid()) {
-
-                patreonSupporters.add(pledge.getDisplayName())
-            }
-        }
-
-        credits += patreonSupporters.join(', ')
-
-        expand 'version': project.version, 'mod_name': mod_name, 'mod_download': mod_download, 'mod_credits': credits, 'mod_authors': mod_authors, 'mod_description': mod_description
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-    
-        exclude 'META-INF/mods.toml'
+        expand buildProps
     }
 }
 
@@ -243,36 +227,6 @@ task updateVersionTracker {
         println "VersionCheck Response: ${req.getInputStream().getText()}"
     }
 }
-
-// Jar Signing
-import net.minecraftforge.gradle.common.task.SignJar
-
-task signJar(type: SignJar, dependsOn: jar) {
-
-    onlyIf {
-    
-        project.hasProperty('keyStore')
-    }
-    
-    if (project.hasProperty('keyStore')) {
-    
-        project.logger.info('Signing jar ' + jar.archivePath.getName());
-    
-        keyStore = project.findProperty('keyStore')
-        alias = project.findProperty('keyStoreAlias')
-        storePass = project.findProperty('keyStorePass')
-        keyPass = project.findProperty('keyStoreKeyPass')
-        inputFile = jar.archivePath
-        outputFile = jar.archivePath
-    }
-
-    else {
-    
-        project.logger.warn('Could not sign ' + jar.archivePath.getName() + '. No keyStore property could be found')
-    }
-}
-
-build.dependsOn signJar
 
 publishing {
 

@@ -1,8 +1,8 @@
 package net.darkhax.badmobs.config;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class SpawnConfig {
@@ -40,24 +40,24 @@ public class SpawnConfig {
         builder.pop();
     }
 
-    public boolean canSpawn (Entity entity, SpawnReason reason, boolean world) {
+    public boolean canSpawn (MobSpawnType reason) {
 
-        if (world || this.removeAggresively.get()) {
+        if (this.removeAggresively.get()) {
 
-            return !this.removeAggresively.get();
+            return false;
         }
 
-        if (reason == SpawnReason.SPAWNER) {
+        if (reason == MobSpawnType.SPAWNER) {
 
             return this.allowSpawners.get();
         }
 
-        if (reason == SpawnReason.SPAWN_EGG) {
+        if (reason == MobSpawnType.SPAWN_EGG) {
 
             return this.allowSpawnEggs.get();
         }
 
-        if (reason == SpawnReason.CONVERSION) {
+        if (reason == MobSpawnType.CONVERSION) {
 
             return this.allowConversions.get();
         }

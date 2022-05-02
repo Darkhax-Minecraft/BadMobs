@@ -7,11 +7,11 @@ import net.darkhax.badmobs.BadMobs;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ConfigTracker;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class ConfigManager {
     

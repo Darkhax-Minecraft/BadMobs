@@ -1,5 +1,6 @@
 package net.darkhax.badmobs;
 
+import net.minecraft.world.entity.Entity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,29 +35,29 @@ public class BadMobs {
     
     private void checkSpawn (CheckSpawn event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason(), false)) {
+        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason())) {
             
-            event.getEntity().remove();
+            event.getEntity().remove(Entity.RemovalReason.DISCARDED);
             event.setResult(Result.DENY);
         }
     }
     
     private void specialSpawn (SpecialSpawn event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason(), false)) {
+        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason())) {
             
-            event.getEntity().remove();
+            event.getEntity().remove(Entity.RemovalReason.DISCARDED);
             event.setCanceled(true);
         }
     }
     
     private void entityJoinWorld (EntityJoinWorldEvent event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), null, true)) {
+        if (!this.config.allowSpawn(event.getEntity(), null)) {
             
-            event.getEntity().remove();
+            event.getEntity().remove(Entity.RemovalReason.DISCARDED);
             event.setCanceled(true);
-            LOG.info("Forcefully removed {}.", event.getEntity());
+            LOG.debug("Forcefully removed {}.", event.getEntity());
         }
     }
 }

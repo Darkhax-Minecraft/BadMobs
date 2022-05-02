@@ -5,9 +5,9 @@ import java.util.Map;
 
 import net.darkhax.badmobs.BadMobs;
 import net.darkhax.badmobs.tempshelf.ConfigManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -30,7 +30,7 @@ public class Configuration {
         this.manager.open();
     }
     
-    public boolean allowSpawn (Entity entity, SpawnReason reason, boolean world) {
+    public boolean allowSpawn (Entity entity, MobSpawnType reason) {
         
         final SpawnConfig config = this.configs.get(entity.getType());
         
@@ -46,7 +46,7 @@ public class Configuration {
         
         else {
             
-            return config.canSpawn(entity, reason, world);
+            return config.canSpawn(reason);
         }
     }
 }
