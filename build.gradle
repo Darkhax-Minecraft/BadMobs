@@ -33,7 +33,7 @@ if (project.hasProperty('secretFile')) {
     loadSecrets(new File((String) findProperty('secretFile')))
 }
 
-version = "${mod_version}" + getBuildNumber()
+version = "${mod_version}." + getBuildNumber()
 archivesBaseName = "${mod_name}-${minecraft_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
