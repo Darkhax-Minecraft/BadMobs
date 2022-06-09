@@ -1,11 +1,11 @@
 modLoader="javafml"
-loaderVersion="[40,]"
+loaderVersion="[41,]"
 issueTrackerURL="https://github.com/Darkhax-Minecraft/BadMobs/issues"
 license="LGPL v2.1"
 
 [[mods]]
 modId="badmobs"
-updateJSONURL="https://updates.blamejared.com/get?n=badmobs&gv=1.18.2"
+updateJSONURL="https://updates.blamejared.com/get?n=badmobs&gv=1.19"
 version="${version}"
 displayName="${mod_name}"
 displayURL="${mod_download}"

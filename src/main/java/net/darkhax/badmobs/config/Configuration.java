@@ -2,6 +2,7 @@ package net.darkhax.badmobs.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import net.darkhax.badmobs.BadMobs;
 import net.darkhax.badmobs.tempshelf.ConfigManager;
@@ -22,7 +23,7 @@ public class Configuration {
         
         for (final EntityType<?> type : ForgeRegistries.ENTITIES) {
             
-            this.configs.put(type, new SpawnConfig(type.getRegistryName(), builder));
+            this.configs.put(type, new SpawnConfig(Objects.requireNonNull(ForgeRegistries.ENTITIES.getKey(type)), builder));
         }
         
         this.manager = new ConfigManager(builder.build());
@@ -38,7 +39,7 @@ public class Configuration {
             
             if (!ForgeRegistries.ENTITIES.containsValue(entity.getType())) {
                 
-                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", entity.getType().getRegistryName(), entity, reason);
+                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITIES.getKey(entity.getType()), entity, reason);
             }
             
             return true;
