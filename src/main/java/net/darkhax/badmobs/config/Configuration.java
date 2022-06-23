@@ -30,7 +30,7 @@ public class Configuration {
         this.manager.open();
     }
     
-    public boolean allowSpawn (Entity entity, SpawnReason reason, boolean world) {
+    public boolean allowSpawn (Entity entity, SpawnReason reason) {
         
         final SpawnConfig config = this.configs.get(entity.getType());
         
@@ -46,7 +46,7 @@ public class Configuration {
         
         else {
             
-            return config.canSpawn(entity, reason, world);
+            return config.canSpawn(entity, reason);
         }
     }
 }

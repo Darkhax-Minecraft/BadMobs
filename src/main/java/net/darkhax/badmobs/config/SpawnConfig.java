@@ -40,11 +40,11 @@ public class SpawnConfig {
         builder.pop();
     }
 
-    public boolean canSpawn (Entity entity, SpawnReason reason, boolean world) {
+    public boolean canSpawn (Entity entity, SpawnReason reason) {
 
-        if (world || this.removeAggresively.get()) {
+        if (this.removeAggresively.get()) {
 
-            return !this.removeAggresively.get();
+            return false;
         }
 
         if (reason == SpawnReason.SPAWNER) {

@@ -34,7 +34,7 @@ public class BadMobs {
     
     private void checkSpawn (CheckSpawn event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason(), false)) {
+        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason())) {
             
             event.getEntity().remove();
             event.setResult(Result.DENY);
@@ -43,7 +43,7 @@ public class BadMobs {
     
     private void specialSpawn (SpecialSpawn event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason(), false)) {
+        if (!this.config.allowSpawn(event.getEntity(), event.getSpawnReason())) {
             
             event.getEntity().remove();
             event.setCanceled(true);
@@ -52,7 +52,7 @@ public class BadMobs {
     
     private void entityJoinWorld (EntityJoinWorldEvent event) {
         
-        if (!this.config.allowSpawn(event.getEntity(), null, true)) {
+        if (!this.config.allowSpawn(event.getEntity(), null)) {
             
             event.getEntity().remove();
             event.setCanceled(true);
