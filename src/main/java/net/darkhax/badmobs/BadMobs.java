@@ -56,7 +56,6 @@ public class BadMobs {
             
             event.getEntity().remove();
             event.setCanceled(true);
-            LOG.info("Forcefully removed {}.", event.getEntity());
         }
     }
 }
