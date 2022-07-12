@@ -21,9 +21,9 @@ public class Configuration {
         
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         
-        for (final EntityType<?> type : ForgeRegistries.ENTITIES) {
+        for (final EntityType<?> type : ForgeRegistries.ENTITY_TYPES) {
             
-            this.configs.put(type, new SpawnConfig(Objects.requireNonNull(ForgeRegistries.ENTITIES.getKey(type)), builder));
+            this.configs.put(type, new SpawnConfig(Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(type)), builder));
         }
         
         this.manager = new ConfigManager(builder.build());
@@ -37,9 +37,9 @@ public class Configuration {
         
         if (config == null) {
             
-            if (!ForgeRegistries.ENTITIES.containsValue(entity.getType())) {
+            if (!ForgeRegistries.ENTITY_TYPES.containsValue(entity.getType())) {
                 
-                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITIES.getKey(entity.getType()), entity, reason);
+                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()), entity, reason);
             }
             
             return true;

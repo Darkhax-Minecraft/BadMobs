@@ -1,12 +1,12 @@
 package net.darkhax.badmobs;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.darkhax.badmobs.config.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -51,7 +51,7 @@ public class BadMobs {
         }
     }
     
-    private void entityJoinWorld (EntityJoinWorldEvent event) {
+    private void entityJoinWorld (EntityJoinLevelEvent event) {
         
         if (!this.config.allowSpawn(event.getEntity(), null)) {
             
