@@ -1,12 +1,12 @@
 modLoader="javafml"
-loaderVersion="[42,]"
+loaderVersion="[43,]"
 issueTrackerURL="https://github.com/Darkhax-Minecraft/BadMobs/issues"
 license="LGPL v2.1"
 
 [[mods]]
 modId="badmobs"
 displayTest="IGNORE_ALL_VERSION"
-updateJSONURL="https://updates.blamejared.com/get?n=badmobs&gv=1.19"
+updateJSONURL="https://updates.blamejared.com/get?n=badmobs&gv=1.19.2"
 version="${version}"
 displayName="${mod_name}"
 displayURL="${mod_download}"
@@ -18,6 +18,6 @@ ${mod_description}
 [[dependencies.badmobs]]
 modId = "forge"
 mandatory = true
-versionRange = "[42,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
