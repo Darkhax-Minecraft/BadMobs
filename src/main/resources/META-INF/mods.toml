@@ -18,6 +18,6 @@ ${mod_description}
 [[dependencies.badmobs]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[45.0.41,)"
 ordering = "NONE"
 side = "BOTH"

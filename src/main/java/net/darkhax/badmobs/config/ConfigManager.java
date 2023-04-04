@@ -1,4 +1,4 @@
-package net.darkhax.badmobs.tempshelf;
+package net.darkhax.badmobs.config;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;

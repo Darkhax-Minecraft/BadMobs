@@ -11,14 +11,13 @@ public class SpawnConfig {
     private final ForgeConfigSpec.BooleanValue allowSpawners;
     private final ForgeConfigSpec.BooleanValue allowSpawnEggs;
     private final ForgeConfigSpec.BooleanValue allowConversions;
-    private final ForgeConfigSpec.BooleanValue removeAggresively;
 
     public SpawnConfig(ResourceLocation id, ForgeConfigSpec.Builder builder) {
 
         builder.comment("Options for the " + id.getNamespace() + " mod.");
         builder.push(id.getNamespace());
 
-        builder.comment("Spawning options for " + id.toString());
+        builder.comment("Spawning options for " + id);
         builder.push(id.getPath());
 
         builder.comment("Should the entity be allowed to spawn normally?");
@@ -33,19 +32,11 @@ public class SpawnConfig {
         builder.comment("Should the entity spawn via mob conversion? i.e. villager -> zombie");
         this.allowConversions = builder.define("allowConversions", true);
 
-        builder.comment("When enabled the entity type will be aggresively removed from worlds. This will bypass all other options.");
-        this.removeAggresively = builder.define("removeAggressively", false);
-
         builder.pop();
         builder.pop();
     }
 
     public boolean canSpawn (MobSpawnType reason) {
-
-        if (this.removeAggresively.get()) {
-
-            return false;
-        }
 
         if (reason == MobSpawnType.SPAWNER) {
 
