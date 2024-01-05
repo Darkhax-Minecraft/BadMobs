@@ -36,7 +36,6 @@ public class BadMobs {
             if (config != null && !config.allowSpawn(mob, mob.getSpawnType())) {
 
                 event.setCanceled(true);
-                mob.discard();
             }
         }
     }
@@ -46,7 +45,6 @@ public class BadMobs {
         if (config != null && !event.getEntity().level().isClientSide && !config.allowSpawn(event.getEntity(), event.getSpawnType())) {
 
             event.setSpawnCancelled(true);
-            event.getEntity().discard();
         }
     }
 }

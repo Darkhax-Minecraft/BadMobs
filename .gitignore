@@ -1,21 +1,24 @@
-#IntelliJ IDEA
-*.class
-*.iml
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
 *.ipr
 *.iws
-*.idea
-out/
+*.iml
+.idea
 
-#ForgeGradle
-build/
-.gradle/
-run/
-logs/
+# gradle
+build
+.gradle
 
-#Eclipse
-.classpath
-.metadata/
-.project
-.settings/
-/bin/
-*.launch
+# other
+eclipse
+run
+runs
+.DS_Store
