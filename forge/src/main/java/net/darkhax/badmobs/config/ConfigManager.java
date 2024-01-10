@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
 import net.darkhax.badmobs.BadMobs;
+import net.darkhax.badmobs.Constants;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -57,7 +58,7 @@ public class ConfigManager {
         
         catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             
-            BadMobs.LOG.catching(e);
+            Constants.LOG.catching(e);
         }
         
         return this;

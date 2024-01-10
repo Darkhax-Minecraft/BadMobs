@@ -1,0 +1,17 @@
+modLoader = "javafml"
+loaderVersion = "${forge_version_range}"
+license = "${mod_license}"
+issueTrackerURL = "${mod_issues}"
+
+[[mods]]
+modId = "${mod_id}"
+displayTest="IGNORE_ALL_VERSION"
+updateJSONURL="https://updates.blamejared.com/get?n=${mod_id}&gv=${minecraft_version}"
+version = "${file.jarVersion}"
+displayName = "${mod_name}"
+displayURL = "${mod_homepage}"
+credits = "This project is made possible with Patreon support from players like you. Thank you! ${mod_supporters}"
+authors = "${mod_author}"
+description = '''
+${mod_description}
+'''

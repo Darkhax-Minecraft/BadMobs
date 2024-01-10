@@ -25,3 +25,5 @@ plugins {
 }
 
 rootProject.name = "BadMobs"
+include('common')
+include('forge')

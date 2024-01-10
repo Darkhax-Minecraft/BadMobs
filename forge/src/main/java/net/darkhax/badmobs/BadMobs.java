@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 @Mod("badmobs")
 public class BadMobs {
 
-    public static final Logger LOG = LogManager.getLogger("Bad Mobs");
     private Configuration config;
 
     public BadMobs() {

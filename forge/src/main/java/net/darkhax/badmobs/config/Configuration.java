@@ -1,6 +1,6 @@
 package net.darkhax.badmobs.config;
 
-import net.darkhax.badmobs.BadMobs;
+import net.darkhax.badmobs.Constants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -91,7 +91,7 @@ public class Configuration {
 
             if (!ForgeRegistries.ENTITY_TYPES.containsValue(entity.getType())) {
 
-                BadMobs.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()), entity, reason);
+                Constants.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()), entity, reason);
             }
 
             return true;
