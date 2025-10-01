@@ -5,9 +5,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -18,53 +18,12 @@ import java.util.Objects;
 
 public class Configuration {
 
-    private static final List<String> VANILLA_BLACKLIST = List.of(
-            "player",
-            "area_effect_cloud",
-            "armor_stand",
-            "arrow",
-            "block_display",
-            "boat",
-            "chest_boat",
-            "chest_minecart",
-            "command_block_minecart",
-            "dragon_fireball",
-            "egg",
-            "end_crystal",
-            "ender_pearl",
-            "evoker_fangs",
-            "experience_bottle",
-            "experience_orb",
-            "eye_of_ender",
-            "falling_block",
-            "firework_rocket",
-            "furnace_minecart",
-            "glow_item_frame",
-            "hopper_minecart",
-            "interaction",
-            "item",
-            "item_display",
-            "item_frame",
-            "fireball",
-            "leash_knot",
-            "lightning_bolt",
-            "llama_spit",
-            "marker",
-            "minecart",
-            "painting",
-            "potion",
-            "shulker_bullet",
-            "small_fireball",
-            "snowball",
-            "spawner_minecart",
-            "spectral_arrow",
-            "text_display",
-            "tnt",
-            "tnt_minecart",
-            "trident",
-            "wither_skull",
-            "fishing_bobber"
+    private static final List<String> VANILLA_MISC_WHITELIST = List.of(
+            "villager",
+            "snow_golem",
+            "iron_golem"
     );
+
     private final Map<EntityType<?>, SpawnConfig> configs = new HashMap<>();
 
     public Configuration() {
@@ -75,7 +34,7 @@ public class Configuration {
 
             final ResourceLocation id = Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(type));
 
-            if (!"minecraft".equals(id.getNamespace()) || !VANILLA_BLACKLIST.contains(id.getPath())) {
+            if (!"minecraft".equals(id.getNamespace()) || (type.getCategory() != MobCategory.MISC || VANILLA_MISC_WHITELIST.contains(id.getPath()))) {
                 this.configs.put(type, new SpawnConfig(id, builder));
             }
         }
