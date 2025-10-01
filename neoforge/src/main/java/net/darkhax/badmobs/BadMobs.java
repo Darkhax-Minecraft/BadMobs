@@ -1,7 +1,6 @@
 package net.darkhax.badmobs;
 
 import net.darkhax.badmobs.config.Configuration;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
