@@ -1,12 +1,15 @@
 package net.darkhax.badmobs.config;
 
 import net.darkhax.badmobs.Constants;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,25 +65,22 @@ public class Configuration {
             "wither_skull",
             "fishing_bobber"
     );
-    private final ConfigManager manager;
     private final Map<EntityType<?>, SpawnConfig> configs = new HashMap<>();
 
     public Configuration() {
 
-        final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        final ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        for (final EntityType<?> type : ForgeRegistries.ENTITY_TYPES) {
+        for (final EntityType<?> type : BuiltInRegistries.ENTITY_TYPE) {
 
-            final ResourceLocation id = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(type));
+            final ResourceLocation id = Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(type));
 
             if (!"minecraft".equals(id.getNamespace()) || !VANILLA_BLACKLIST.contains(id.getPath())) {
                 this.configs.put(type, new SpawnConfig(id, builder));
             }
         }
 
-        this.manager = new ConfigManager(builder.build());
-        this.manager.registerWithForge();
-        this.manager.open();
+        ModList.get().getModContainerById("badmobs").ifPresent(container -> container.registerConfig(ModConfig.Type.COMMON, builder.build()));
     }
 
     public boolean allowSpawn(Entity entity, MobSpawnType reason) {
@@ -89,9 +89,9 @@ public class Configuration {
 
         if (config == null) {
 
-            if (!ForgeRegistries.ENTITY_TYPES.containsValue(entity.getType())) {
+            if (!BuiltInRegistries.ENTITY_TYPE.containsValue(entity.getType())) {
 
-                Constants.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()), entity, reason);
+                Constants.LOG.error("The entity type {} of {} spawned but has not been registered. This is not allowed. SpawnReason={}", BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()), entity, reason);
             }
 
             return true;

@@ -1,30 +1,24 @@
-/*
- This module adds a task that can update the latest version in Jared's update
- checker API. This is a private service which requires an API key to use.
- 
- For further information contact Jared: https://twitter.com/jaredlll08
-*/
-
+// This plugin adds a task that can update the latest version on Jared's
+// update checker API. This is a private service that requires an API key
+// to use. For more information contact Jared https://x.com/jaredlll08
 import groovy.json.JsonOutput
-
-apply from: "$rootDir/gradle/property_helper.gradle"
 
 task updateVersionTracker {
 
-    if (!project.hasProperty('versionTrackerAPI') || !project.hasProperty('versionTrackerUsername')) {
+    if (!rootProject.hasProperty('versionTrackerAPI') || !rootProject.hasProperty('versionTrackerUsername')) {
 
-        project.logger.warn('Skipping Version Checker update. Authentication is required!')
+        rootProject.logger.warn('Skipping Version Checker update. Authentication is required!')
     }
 
     onlyIf {
 
-        project.hasProperty('versionTrackerAPI') && project.hasProperty('versionTrackerUsername')
+        rootProject.hasProperty('versionTrackerAPI') && rootProject.hasProperty('versionTrackerUsername')
     }
 
     doLast {
 
-        def username = getRequiredString('versionTrackerUsername')
-        def apiKey = getRequiredString('versionTrackerKey')
+        def username = rootProject.findProperty('versionTrackerUsername')
+        def apiKey = rootProject.findProperty('versionTrackerKey')
 
         // Creates a Map that acts as the Json body of the API request.
         def body = [
@@ -32,14 +26,12 @@ task updateVersionTracker {
                 'projectName'   : project.ext.mod_id,
                 'gameVersion'   : project.ext.minecraft_version,
                 'projectVersion': project.version,
-                'homepage'      : project.ext.mod_homepage,
+                'homepage'      : project.ext.curse_page,
                 'uid'           : apiKey
         ]
 
-        project.logger.lifecycle("Version Check: ${project.ext.mod_id} for ${project.version}")
-
         // Opens a connection to the version tracker API and writes the payload JSON.
-        def req = new URL(project.findProperty('versionTrackerAPI')).openConnection()
+        def req = new URL(rootProject.findProperty('versionTrackerAPI')).openConnection()
         req.setRequestMethod('POST')
         req.setRequestProperty('Content-Type', 'application/json; charset=UTF-8')
         req.setRequestProperty('User-Agent', "${project.ext.mod_name} Tracker Gradle")

@@ -1,18 +1,17 @@
 package net.darkhax.badmobs.config;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class SpawnConfig {
 
-    private final ForgeConfigSpec.BooleanValue allowNormalSpawn;
-    private final ForgeConfigSpec.BooleanValue allowSpawners;
-    private final ForgeConfigSpec.BooleanValue allowSpawnEggs;
-    private final ForgeConfigSpec.BooleanValue allowConversions;
+    private final ModConfigSpec.BooleanValue allowNormalSpawn;
+    private final ModConfigSpec.BooleanValue allowSpawners;
+    private final ModConfigSpec.BooleanValue allowSpawnEggs;
+    private final ModConfigSpec.BooleanValue allowConversions;
 
-    public SpawnConfig(ResourceLocation id, ForgeConfigSpec.Builder builder) {
+    public SpawnConfig(ResourceLocation id, ModConfigSpec.Builder builder) {
 
         builder.comment("Options for the " + id.getNamespace() + " mod.");
         builder.push(id.getNamespace());
@@ -21,7 +20,7 @@ public class SpawnConfig {
         builder.push(id.getPath());
 
         builder.comment("Should the entity be allowed to spawn normally?");
-        this.allowNormalSpawn = builder.define("allowNormalSpawning", true);
+        this.allowNormalSpawn = builder.define("allowNormalSpawning", false);
 
         builder.comment("Should spawners be able to spawn the entity?");
         this.allowSpawners = builder.define("allowSpawners", true);
