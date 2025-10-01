@@ -10,6 +10,8 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public class BadMobsClient {
 
     public BadMobsClient(ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        container.registerExtensionPoint(IConfigScreenFactory.class, (modContainer, parent) ->
+                new ConfigurationScreen(modContainer, parent, BadMobsConfigurationSectionScreens.Mod::new)
+        );
     }
 }

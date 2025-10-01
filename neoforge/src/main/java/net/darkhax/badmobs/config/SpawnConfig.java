@@ -20,7 +20,7 @@ public class SpawnConfig {
         builder.push(id.getPath());
 
         builder.comment("Should the entity be allowed to spawn normally?");
-        this.allowNormalSpawn = builder.define("allowNormalSpawning", false);
+        this.allowNormalSpawn = builder.define("allowNormalSpawning", true);
 
         builder.comment("Should spawners be able to spawn the entity?");
         this.allowSpawners = builder.define("allowSpawners", true);

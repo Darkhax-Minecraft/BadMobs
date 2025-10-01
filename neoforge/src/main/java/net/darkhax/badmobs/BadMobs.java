@@ -32,6 +32,7 @@ public class BadMobs {
 
             if (config != null && !config.allowSpawn(mob, mob.getSpawnType())) {
                 event.setCanceled(true);
+                // Discard here to prevent any post configurations from running forever
                 event.getEntity().discard();
             }
         }

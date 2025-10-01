@@ -1,0 +1,6 @@
+{
+    "badmobs.configuration.allowNormalSpawning": "Normal Spawning",
+    "badmobs.configuration.allowSpawners": "Spawners",
+    "badmobs.configuration.allowSpawnEggs": "Spawn Eggs",
+    "badmobs.configuration.allowConversions": "Conversions"
+}
