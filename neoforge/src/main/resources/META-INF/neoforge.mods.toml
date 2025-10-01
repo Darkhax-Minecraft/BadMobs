@@ -15,8 +15,8 @@ credits = "This project is made possible with Patreon support from players like 
 authors = "${mod_author}"
 description = "${mod_description}"
 
-#[[mixins]]
-#config = "${mod_id}.mixins.json"
+[[mixins]]
+config = "${mod_id}.mixins.json"
 #
 #[[mixins]]
 #config = "${mod_id}.neoforge.mixins.json"

@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "net.darkhax.badmobs.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "patch.MixinBeehiveBlockEntity"
+    ],
+    "client": [],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
