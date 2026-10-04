@@ -10,6 +10,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public interface BadMobsConfigurationSectionScreens {
         }
 
         @Override
-        protected MutableComponent getTranslationComponent(String key) {
+        protected @NonNull MutableComponent getTranslationComponent(@NonNull String key) {
             return this.nameCache.computeIfAbsent(key, k -> ModList.get().getModContainerById(k)
                     .map(container -> Component.literal(container.getModInfo().getDisplayName()))
                     .orElseGet(() -> super.getTranslationComponent(k)));
@@ -35,6 +36,7 @@ public interface BadMobsConfigurationSectionScreens {
         @Nullable
         @Override
         protected Element createSection(String key, UnmodifiableConfig subconfig, UnmodifiableConfig subsection) {
+        protected Element createSection(@NonNull String key, @NonNull UnmodifiableConfig subconfig, @NonNull UnmodifiableConfig subsection) {
             sectionCache.computeIfAbsent(key, k -> new Entity(
                     context, this, subconfig.valueMap(), key, subsection.entrySet(), getTranslationComponent(k), k
             ));
@@ -53,8 +55,8 @@ public interface BadMobsConfigurationSectionScreens {
         }
 
         @Override
-        protected String getTranslationKey(String key) {
             return Util.makeDescriptionId("entity", ResourceLocation.fromNamespaceAndPath(this.namespace, key));
+        protected @NonNull String getTranslationKey(@NonNull String key) {
         }
     }
 }
