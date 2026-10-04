@@ -19,7 +19,7 @@ import java.util.List;
 @Mixin(BeehiveBlockEntity.class)
 public class MixinBeehiveBlockEntity {
 
-    @Inject(method = "releaseOccupant", cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"))
+    @Inject(method = "releaseOccupant", cancellable = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"))
     private static void fixReleaseOccupants(Level level, BlockPos pos, BlockState state, BeehiveBlockEntity.Occupant occupant, List<Entity> storedInHives, BeehiveBlockEntity.BeeReleaseStatus releaseStatus, BlockPos storedFlowerPos, CallbackInfoReturnable<Boolean> cir, @Local Entity entity) {
         // Inject before playSound and wrap sound and game event in whether the entity was added or not
         boolean addedEntity = level.addFreshEntity(entity);
