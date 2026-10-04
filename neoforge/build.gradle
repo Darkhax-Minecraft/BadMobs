@@ -7,10 +7,6 @@ plugins {
 
 neoForge {
     version = neoforge_version
-    parchment {
-        minecraftVersion = parchment_minecraft
-        mappingsVersion = parchment_version
-    }
     runs {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
@@ -47,7 +43,7 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     var mainFile = upload(curse_project, jar)
     mainFile.changelogType = 'markdown'
     mainFile.changelog = rootProject.findProperty('mod_changelog')
-    mainFile.addJavaVersion('Java 21')
+    mainFile.addJavaVersion('Java 25')
     mainFile.releaseType = 'release'
     mainFile.addModLoader('NeoForge')
 

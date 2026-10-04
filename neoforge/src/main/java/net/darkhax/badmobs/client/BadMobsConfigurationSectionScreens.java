@@ -1,11 +1,11 @@
 package net.darkhax.badmobs.client;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -35,10 +35,12 @@ public interface BadMobsConfigurationSectionScreens {
 
         @Nullable
         @Override
-        protected Element createSection(String key, UnmodifiableConfig subconfig, UnmodifiableConfig subsection) {
         protected Element createSection(@NonNull String key, @NonNull UnmodifiableConfig subconfig, @NonNull UnmodifiableConfig subsection) {
+            Map<String, Object> values = new HashMap<>();
+            subconfig.entrySet().forEach(entry -> values.put(entry.getKey(), entry.getValue()));
+
             sectionCache.computeIfAbsent(key, k -> new Entity(
-                    context, this, subconfig.valueMap(), key, subsection.entrySet(), getTranslationComponent(k), k
+                    context, this, values, key, subsection.entrySet(), getTranslationComponent(k), k
             ));
             return super.createSection(key, subconfig, subsection);
         }
@@ -55,8 +57,8 @@ public interface BadMobsConfigurationSectionScreens {
         }
 
         @Override
-            return Util.makeDescriptionId("entity", ResourceLocation.fromNamespaceAndPath(this.namespace, key));
         protected @NonNull String getTranslationKey(@NonNull String key) {
+            return Util.makeDescriptionId("entity", Identifier.fromNamespaceAndPath(this.namespace, key));
         }
     }
 }

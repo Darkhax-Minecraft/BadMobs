@@ -1,7 +1,7 @@
 package net.darkhax.badmobs.config;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class SpawnConfig {
@@ -11,7 +11,7 @@ public class SpawnConfig {
     private final ModConfigSpec.BooleanValue allowSpawnEggs;
     private final ModConfigSpec.BooleanValue allowConversions;
 
-    public SpawnConfig(ResourceLocation id, ModConfigSpec.Builder builder) {
+    public SpawnConfig(Identifier id, ModConfigSpec.Builder builder) {
 
         builder.comment("Options for the " + id.getNamespace() + " mod.");
         builder.push(id.getNamespace());
@@ -35,19 +35,19 @@ public class SpawnConfig {
         builder.pop();
     }
 
-    public boolean canSpawn (MobSpawnType reason) {
+    public boolean canSpawn (EntitySpawnReason reason) {
 
-        if (reason == MobSpawnType.SPAWNER) {
+        if (reason == EntitySpawnReason.SPAWNER) {
 
             return this.allowSpawners.get();
         }
 
-        if (reason == MobSpawnType.SPAWN_EGG) {
+        if (reason == EntitySpawnReason.SPAWN_ITEM_USE) {
 
             return this.allowSpawnEggs.get();
         }
 
-        if (reason == MobSpawnType.CONVERSION) {
+        if (reason == EntitySpawnReason.CONVERSION) {
 
             return this.allowConversions.get();
         }
